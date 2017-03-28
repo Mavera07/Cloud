@@ -28,12 +28,20 @@ function [means vars error] = EM(k,N,mydata)
 end
 #}
 
-mydata=[]; mypoint=[]; N=0;
-function distList = distList2d(N,mydata, mypoint)
-  distList = zeros(N,1);
+mydata=[]; mypoint=[];
+function result = distListToPoint(mydata, mypoint)
+  N = size(mydata)(1);
+  result = zeros(N,1);
   for i = 1:N
-    temp1 = mypoint(1)-mydata(i)(1);
-    temp2 = mypoint(2)-mydata(i)(2);
-    distList(i) = sqrt(temp1^2+temp2^2);
+    temp1 = mypoint(1)-mydata(i,1);
+    temp2 = mypoint(2)-mydata(i,2);
+    result(i) = sqrt(temp1^2+temp2^2);
   end
+end
+
+k=0; mydata=[];
+function result = kNN(k,mydata,mypoint)
+  distances = distListToPoint(mydata,mypoint);
+  distances = sort(distances);
+  result = distances(k);
 end

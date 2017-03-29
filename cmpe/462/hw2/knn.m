@@ -11,16 +11,15 @@ for ci = ciList
     
     probList = [];
   
-    for vi = validationList(:,:,ci)'
+    for vi = validationList(:,:,1)'
     
       dist = kthDist(ki,trainingList(:,:,ci),vi([1 2]));
       prob = ki/(2*N*dist);
       
-      probList(end+1)=prob*1000;
-      
+      probList(end+1)=prob;
     end
     
-    mean(probList)
+    mean(probList)*1000
     
   end
 end

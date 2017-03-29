@@ -26,4 +26,7 @@ mat5(:,3) = [1:5];
 
 mat5 - [1 2 3];
 
-size(mat4)
+size(mat4);
+
+# IMPORTANT
+#mat2([1 2])

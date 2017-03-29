@@ -29,7 +29,7 @@ end
 #}
 
 mydata=[]; mypoint=[];
-function result = distListToPoint(mydata, mypoint)
+function result = distListOfPointsToPoint(mydata, mypoint)
   N = size(mydata)(1);
   result = zeros(N,1);
   for i = 1:N
@@ -40,8 +40,8 @@ function result = distListToPoint(mydata, mypoint)
 end
 
 k=0; mydata=[];
-function result = kNN(k,mydata,mypoint)
-  distances = distListToPoint(mydata,mypoint);
+function result = kthDist(k,mydata,mypoint)
+  distances = distListOfPointsToPoint(mydata,mypoint);
   distances = sort(distances);
   result = distances(k);
 end

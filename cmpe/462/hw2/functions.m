@@ -1,10 +1,23 @@
-#{
+# class 0 // (-7.5 : 9)  // (-5 : 10)
+# k = 1 // 0.75 2.5
+# class 1 // (-11 : 4)  // ( -8 : 5)
+# k = 1 // -3.5 -1.5
+# class 2 // (-14 : 5)  // ( -13 : 4)
+# k = 1 // -4.5 -4.5
+
+
 k=0;N=0;mydata=[];
-function [means vars error] = EM(k,N,mydata)
+function [means vars] = EM(k,N,mydata)
   
   # sizevec
   # meanvec
   # varvec
+  k = 1;
+  sizevec = [1];
+  meanvec = [];
+  meanvec[:,:,1] =[0.75 2.5];
+  varvec = [];
+  varvec[:,:,1] = covarianceEstimate(class0_training,meanvec(:,:,1)); 
 
   for EM_turn = 1:20
     # E-step
@@ -26,7 +39,33 @@ function [means vars error] = EM(k,N,mydata)
   end
   
 end
-#}
+
+
+xi=[]; mvec=[]; covar=[];
+function result = mgLikelihood(xi,mvec,covar)
+
+
+  d = size(xi)(2);
+  temp1 = 1/( sqrt((2*pi)^d) );
+  temp2 = 1/sqrt(det(covar));
+  temp3 = xi-mvec;
+   
+  temp4 = (-1/2)*temp3*inv(covar)*(temp3');
+  temp5 = exp(temp4);
+  
+  result = temp1*temp2*temp5;
+end
+
+
+function result = covarianceEstimate(mydata,mvec)
+  N = size(mydata)(1);
+  temp1 = mydata(:,1:2) - mvec ;
+  result = (1/N)*(temp1')*temp1;
+end
+
+# gaussian -- upwards
+# --------------------------------------------------
+# knn -- downwards
 
 mydata=[]; mypoint=[];
 function result = distListOfPointsToPoint(mydata, mypoint)

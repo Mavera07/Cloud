@@ -32,9 +32,9 @@ size(mat4);
 #mat2([1 2])
 
 #figure;
-temp3 = sort(class0);
-temp4 = sort(class1);
-temp5 = sort(class2);
+temp3 = sort(class2);
+temp4 = sort([1 2 1]);
+temp5 = sort([1 2 1]);
 #plot(temp3(:,1),temp3(:,2),temp4(:,1),temp4(:,2),temp5(:,1),temp5(:,2));
 
 #{
@@ -94,5 +94,23 @@ tempList(:,:,2) = [4 5 1; 5 6 1];
 tempList(:,:,3) = [8 9 2; 9 100 2];
 #estimation = knnVoteResult(cList,1,tempList,[9 9]);
 
-temp1 = [ 5 3 15 59 1 15]
-[M,I] = min(temp1)
+temp1 = [ 5 3 15 59 1 15];
+[M,I] = min(temp1);
+
+cList = [1 2 3];
+kList = [1 10 40];
+
+kSize = size(kList)(2);
+cSize = size(cList)(2);
+
+find(kList==1);
+
+size(cList);
+pi;
+
+exp(0);
+exp(1);
+exp(2);
+
+mgLikelihood([1 2], [2 2], [1 0;0 5]);
+mvnpdf([1 2], [2 2], [1 0;0 5]);

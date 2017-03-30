@@ -28,26 +28,21 @@ best_k = kList(IndexK);
 
 
 # CALCULATE ERROR WITH TEST SET
-classificationList = zeros(); # UPDATE
+kSize = size(kList)(2);
+cSize = size(cList)(2);
+classificationList = zeros(kSize,cSize,cSize); # UPDATE
 for ki = kList
-  ki;
     
   errorCountForK = 0;
   for ci = cList
-    ci;
     
     for vi = validationList(:,:,ci)'
     
       estimation = knnVoteResult(cList,ki,trainingList,vi([1 2]));  
-      for cj = cList
-        if estimation != (cj-1)
-          classificationList() +=1; # UPDATE
-        end
-      end
+      classificationList(ci,find(kList==ki),estimation+1) +=1;
       
-      
-  
     end 
   end
-  
 end
+
+classificationList

@@ -16,26 +16,31 @@ function [means vars] = EM(k,N,mydata)
   sizevec = [1];
   meanvec = [];
   meanvec[:,:,1] =[0.75 2.5];
-  varvec = [];
-  varvec[:,:,1] = covarianceEstimate(class0_training,meanvec(:,:,1)); 
+  covarvec = [];
+  covarvec[:,:,1] = covarianceEstimate(class0_training,meanvec(:,:,1)); 
 
   for EM_turn = 1:20
     # E-step
-    ric_mat = zeros(N,k);
 
+    ric_mat = zeros(N,k);
     for i = 1:N
-      for c = 1:k        
-          ric_mat(i,c) = # (size * normpdf) / sum(size * normpdf)        
+      for c = 1:k 
+          ric_mat(i,c) = sizevec(c)*mgLikelihood(mydata(i,1:2),meanvec(:,:,c),covarvec(:,:,c));
       end   
     end
-    
-    # M-step
-    mc_vec = mean(ric_mat);  
-    sizevec = mc_vec/sum(mc_vec);
-    meanvec = sum( (ric_mat' .* "datavec")' )./mc_vec;
 
-    temp = ("datavec with k copy columns"-meanvec);
-    varvec = sum(ric_mat*(temp'*temp))./mc_vec;
+    ric_mat_all = sum(ric_mat')';
+    ric_mat_norm = ric_mat ./ ric_mat_all ;
+
+    # M-step
+    for c = 1:k
+      mc_vec = mean(ric_mat_norm);  
+      sizevec = mc_vec/sum(mc_vec);
+      meanvec = sum( (ric_mat_norm' .* "datavec")' )./mc_vec;
+
+      temp = ("datavec with k copy columns"-meanvec);
+      varvec = sum(ric_mat*(temp'*temp))./mc_vec;
+    end
   end
   
 end

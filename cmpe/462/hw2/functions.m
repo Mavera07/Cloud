@@ -39,9 +39,22 @@ function result = distListOfPointsToPoint(mydata, mypoint)
   end
 end
 
-k=0; mydata=[];
-function result = kthDist(k,mydata,mypoint)
-  distances = distListOfPointsToPoint(mydata,mypoint);
-  distances = sort(distances);
-  result = distances(k);
+
+k=0; mydata=[]; mypoint=[]; cList=[];
+function result = knnVoteResult(cList,k,mydata,mypoint)
+ 
+  distances= [];
+  for ci = cList
+    distList_ci = distListOfPointsToPoint(mydata(:,:,ci),mypoint);
+    distList_ci = sort(distList_ci);
+    distList_ci = distList_ci(1:k);
+    distList_ci = [distList_ci ones(k,1)*(ci-1)];
+    distances = [distances ;distList_ci];
+  end
+  
+  distances = sortrows(distances);
+  distances = distances(1:k,:);
+  result = mode(distances(:,2));
+  
 end
+

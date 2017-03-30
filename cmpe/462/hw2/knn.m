@@ -1,4 +1,5 @@
-
+cList = [1 2 3];
+kList = [1 10 40];
 
 # SELECT BEST k WITH VALIDATION SET
 errorList = [];

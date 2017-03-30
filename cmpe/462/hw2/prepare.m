@@ -57,3 +57,33 @@ class2_validation = temp1(temp2,:);
 temp3 = setdiff([1:1000],temp2);
 class2_test = temp1(temp3,:);
 
+
+
+# Combine Training , Validation and Test Data
+
+trainingList = [];
+trainingList(:,:,1) = class0_training;
+trainingList(:,:,2) = class1_training;
+trainingList(:,:,3) = class2_training;
+
+#trainingList(1,3,1)
+#trainingList(1,3,2)
+#trainingList(1,3,3)
+
+validationList = [];
+validationList(:,:,1) = class0_validation;
+validationList(:,:,2) = class1_validation;
+validationList(:,:,3) = class2_validation;
+
+#validationList(1,3,1)
+#validationList(1,3,2)
+#validationList(1,3,3)
+
+testList = [];
+testList(:,:,1) = class0_test;
+testList(:,:,2) = class1_test;
+testList(:,:,3) = class2_test;
+
+#testList(1,3,1)
+#testList(1,3,2)
+#testList(1,3,3)

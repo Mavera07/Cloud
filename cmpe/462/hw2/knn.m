@@ -1,4 +1,52 @@
-for vi = class:
-kthDist(40,class0_training,[class0_validation(1,1) class0_validation(1,2)])
-# calculate error on validation set
-# save the solution
+
+
+# SELECT BEST k WITH VALIDATION SET
+errorList = [];
+for ki = kList
+  ki;
+    
+  errorCountForK = 0;
+  for ci = cList
+    ci;
+    
+    for vi = validationList(:,:,ci)'
+    
+      estimation = knnVoteResult(cList,ki,trainingList,vi([1 2]));  
+      if estimation != (ci-1)
+        errorCountForK +=1;
+      end
+  
+    end 
+  end
+  
+  errorList(end+1) = errorCountForK;
+end
+
+[MinK,IndexK] = min(errorList);
+best_k = kList(IndexK);
+
+
+# CALCULATE ERROR WITH TEST SET
+classificationList = zeros(); # UPDATE
+for ki = kList
+  ki;
+    
+  errorCountForK = 0;
+  for ci = cList
+    ci;
+    
+    for vi = validationList(:,:,ci)'
+    
+      estimation = knnVoteResult(cList,ki,trainingList,vi([1 2]));  
+      for cj = cList
+        if estimation != (cj-1)
+          classificationList() +=1; # UPDATE
+        end
+      end
+      
+      
+  
+    end 
+  end
+  
+end

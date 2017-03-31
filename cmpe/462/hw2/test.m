@@ -1,3 +1,20 @@
+
+# class 0 // (-7.5 : 9)  // (-5 : 10)
+# k = 1 // 0.75 2.5
+# class 1 // (-11 : 4)  // ( -8 : 5)
+# k = 1 // -3.5 -1.5
+# class 2 // (-14 : 5)  // ( -13 : 4)
+# k = 1 // -4.5 -4.5
+
+# class 0 // (-7.5 : 9)  // (-5 : 10)
+# k = 1 // 0.75 2.5
+# class 1 // (-11 : 4)  // ( -8 : 5)
+# k = 1 // -3.5 -1.5
+# class 2 // (-14 : 5)  // ( -13 : 4)
+# k = 1 // -4.5 -4.5
+
+
+
 # In gaussian, likelihood = normpdf function
 
 # Following for loop
@@ -132,3 +149,17 @@ size(class0_training)(1);
     
     #}
     
+    
+meanvec = [];
+meanvec(:,:,1) =[0.35 1.5];
+meanvec(:,:,2) =[1.05 3.5];
+    
+temp1 = [];
+temp1(:,:,:,1,1)=meanvec;
+
+meanvec(:,:,3) =[1.05 3.5];
+temp1(:,:,:,2,1)=meanvec;
+
+temp1(:,:,:,1,2)=meanvec
+
+temp1(:,:,:,1,1);

@@ -1,13 +1,32 @@
+cList = [1 2 3];
+kList = [1 2 3];
 
-# class 0 // (-7.5 : 9)  // (-5 : 10)
-# k = 1 // 0.75 2.5
-# class 1 // (-11 : 4)  // ( -8 : 5)
-# k = 1 // -3.5 -1.5
-# class 2 // (-14 : 5)  // ( -13 : 4)
-# k = 1 // -4.5 -4.5
-
-for ki = 1:1
-  [means vars] = EM(ki,class0_training)
-  # save the result
+# OBTAIN MEANS AND COVARIANCES
+for ci = cList
+  
+  kthClusterMeans =[];
+  kthClusterCovars =[];
+  
+  # OBTAIN MEANS AND COVARIANCES FOR GIVEN k CLUSTERS
+  for ki = kList
+    [means covars] = EM(ki,trainingList(:,:,ci));
+    
+    kthClusterMeans(:,:,:,ki,ci) = means;
+    kthClusterCovars(:,:,:,ki,ci) = covars;
+  end
+  
 end
  
+# SELECT BEST k WITH VALIDATION SET
+  
+kthClusterErrors = [];
+
+for ci = cList  
+  for ki = kList
+    for vi = validationList(:,:,ci)'
+      for kj = kList
+        
+      end
+    end
+  end
+end

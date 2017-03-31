@@ -153,7 +153,7 @@ size(class0_training)(1);
 meanvec = [];
 meanvec(:,:,1) =[0.35 1.5];
 meanvec(:,:,2) =[1.05 3.5];
-    
+#{    
 temp1 = [];
 temp1(:,:,:,1,1)=meanvec;
 
@@ -163,3 +163,25 @@ temp1(:,:,:,2,1)=meanvec;
 temp1(:,:,:,1,2)=meanvec
 
 temp1(:,:,:,1,1);
+#}
+temp1= [];
+temp1(end+1,:) = [1,2];
+temp1(end+1,:) = [1,2];
+
+[a b] = max([2 6 78 3 -2 6]);
+
+6*2+[1:3];
+sum(1:0);
+
+kList = [1 2 3];
+ci=3;
+ki=3;
+kj=3;
+sum(kList)*(ci-1)+sum(1:ki-1)+kj;
+
+
+kList = [1 2 3];
+cj=3;
+ki=3;
+kj=3;
+2*sum(kList)*(cj-1)+2*sum(1:ki-1)+2*(kj-1)+[1 2]

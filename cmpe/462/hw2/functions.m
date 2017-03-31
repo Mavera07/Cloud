@@ -5,14 +5,16 @@ function [meanvec covarvec] = EM(k,mydata)
   # sizevec
   # meanvec
   # varvec
-  k = 2;
-  sizevec = [0.5 0.5];
+  k = 3;
+  sizevec = [0.33 0.33 0.33];
   meanvec = [];
-  meanvec(:,:,1) =[0.35 1.5];
-  meanvec(:,:,2) =[1.05 3.5];
+  meanvec(:,:,1) =[-6 -3];
+  meanvec(:,:,2) =[0 3.5];
+  meanvec(:,:,3) =[6 8];
   covarvec = [];
   covarvec(:,:,1) = covarianceEstimate(mydata,meanvec(:,:,1)); 
   covarvec(:,:,2) = covarianceEstimate(mydata,meanvec(:,:,2)); 
+  covarvec(:,:,3) = covarianceEstimate(mydata,meanvec(:,:,3)); 
 
   for EM_turn = 1:20
     # E-step

@@ -113,4 +113,22 @@ exp(1);
 exp(2);
 
 mgLikelihood([1 2], [2 2], [1 0;0 5]);
-mvnpdf([1 2], [2 2], [1 0;0 5]);
+#mvnpdf([1 2], [2 2], [1 0;0 5]);
+
+size(class0_training);
+size(class0_training)(1);
+
+#{
+# M-step
+    mc_vec = mean(ric_mat_norm);
+    sizevec = mc_vec/sum(mc_vec);
+    for c = 1:k
+    
+      meanvec(:,:,c) = sum( mydata(:,1:2) .* ric_mat_norm(:,c) )./mc_vec(c);
+      
+      temp = mydata(:,1:2)-meanvec(:,:,c);
+      varvec(:,:,c) = sum((temp*temp').*ric_mat_norm(:,c))./mc_vec;
+    end
+    
+    #}
+    

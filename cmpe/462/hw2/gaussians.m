@@ -6,10 +6,8 @@
 # class 2 // (-14 : 5)  // ( -13 : 4)
 # k = 1 // -4.5 -4.5
 
-for ki = 1:3
-  [means vars] = EM(ki,mydata)
+for ki = 1:1
+  [means vars] = EM(ki,class0_training)
   # save the result
 end
  
-# calculate error on validation set
-# save/return the solution

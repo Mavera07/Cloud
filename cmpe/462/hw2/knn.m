@@ -1,6 +1,7 @@
 cList = [1 2 3];
 kList = [1 10 40];
 
+#{
 # SELECT BEST k WITH VALIDATION SET
 errorList = [];
 for ki = kList
@@ -25,12 +26,12 @@ end
 
 [MinK,IndexK] = min(errorList);
 best_k = kList(IndexK);
-
+#}
 
 # CALCULATE ERROR WITH TEST SET
 kSize = size(kList)(2);
 cSize = size(cList)(2);
-classificationList = zeros(kSize,cSize,cSize); # UPDATE
+classificationList = zeros(kSize,cSize,cSize);
 for ki = kList
     
   errorCountForK = 0;
@@ -39,7 +40,7 @@ for ki = kList
     for vi = validationList(:,:,ci)'
     
       estimation = knnVoteResult(cList,ki,trainingList,vi([1 2]));  
-      classificationList(ci,find(kList==ki),estimation+1) +=1;
+      classificationList(estimation+1,ci,find(kList==ki)) +=1;
       
     end 
   end

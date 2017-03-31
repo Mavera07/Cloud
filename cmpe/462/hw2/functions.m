@@ -6,18 +6,20 @@
 # k = 1 // -4.5 -4.5
 
 
-k=0;N=0;mydata=[];
-function [means vars] = EM(k,N,mydata)
-  
+k=0;mydata=[];
+function [meanvec covarvec] = EM(k,mydata)
+  N = size(mydata)(1);
   # sizevec
   # meanvec
   # varvec
-  k = 1;
-  sizevec = [1];
+  k = 2;
+  sizevec = [0.5 0.5];
   meanvec = [];
-  meanvec[:,:,1] =[0.75 2.5];
+  meanvec(:,:,1) =[0.35 1.5];
+  meanvec(:,:,2) =[1.05 3.5];
   covarvec = [];
-  covarvec[:,:,1] = covarianceEstimate(class0_training,meanvec(:,:,1)); 
+  covarvec(:,:,1) = covarianceEstimate(mydata,meanvec(:,:,1)); 
+  covarvec(:,:,2) = covarianceEstimate(mydata,meanvec(:,:,2)); 
 
   for EM_turn = 1:20
     # E-step
@@ -33,13 +35,20 @@ function [means vars] = EM(k,N,mydata)
     ric_mat_norm = ric_mat ./ ric_mat_all ;
 
     # M-step
+    
     for c = 1:k
-      mc_vec = mean(ric_mat_norm);  
-      sizevec = mc_vec/sum(mc_vec);
-      meanvec = sum( (ric_mat_norm' .* "datavec")' )./mc_vec;
-
-      temp = ("datavec with k copy columns"-meanvec);
-      varvec = sum(ric_mat*(temp'*temp))./mc_vec;
+    
+      mc = sum(ric_mat_norm(:,c));
+      sizevec(c)= mc/sum(sum(ric_mat_norm));
+      meanvec(:,:,c) = zeros(1,2);
+      for i = 1:N
+        meanvec(:,:,c) += (mydata(i,1:2) * ric_mat_norm(i,c) )/mc;
+      end
+      varvec(:,:,c) = zeros(2,2);
+      for i = 1:N
+        temp = mydata(i,1:2)-meanvec(:,:,c);
+        varvec(:,:,c) += (ric_mat_norm(i,c)*(temp')*temp)/mc;
+      end
     end
   end
   

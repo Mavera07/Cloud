@@ -21,73 +21,73 @@ for ci = cList
   end
   
 end
+#}
+ 
 
  
-# SELECT BEST k WITH VALIDATION SET - METHOD 1 
+# SELECT BEST k WITH VALIDATION SET
   
-clusterValidationErrors = zeros(cN,kN);
+  #{
+  # CALCULATE ERRORS OF ALL CLUSTER COMBINATIONS
+  
+  clusterValidationErrors = zeros(cN,kN,kN,kN);
 
-for ci = cList  
-  for ki = kList
-    for vi = validationList(:,:,ci)'
+  for conf = 1:(kN^cN)
+    confValues = num2str(base2dec(dec2base(conf-1, 3),10),'%03d');
+    modelConf = zeros(1,cN);
+    for ci = cList
+      modelConf(1,ci) = str2num(confValues(ci))+1; 
+    end
     
-      likelihoods = zeros(cN,1);
-      for cj = cList
+    for ci = cList  
+      for vi = validationList(:,:,ci)'
       
-        if ci == cj      
+        likelihoods = zeros(cN,1);
+        for cj = cList
+        
+          ki = modelConf(1,cj);
           for kj = 1:ki
             likelihoods(cj,1) += clusterSizes(sum(kList)*(cj-1)+sum(1:ki-1)+kj)*mgLikelihood(vi'([1 2]),clusterMeans(sum(kList)*(cj-1)+sum(1:ki-1)+kj,:),clusterCovars(2*sum(kList)*(cj-1)+2*sum(1:ki-1)+2*(kj-1)+[1 2],:) );
           end
-      
-      
-        elseif
-          likelihoods(cj,1) = mgLikelihood(vi'([1 2]),clusterMeans(sum(kList)*(cj-1)+1,:),clusterCovars(2*sum(kList)*(cj-1)+[1 2],:));
+          
         end
-        
-      end
-     
-     
-      [ignore1 estimation] = max(likelihoods);
-      
-      if estimation != ci 
-        clusterValidationErrors(ci,ki) += 1;
+       
+        [ignore1 estimation] = max(likelihoods);
+        if estimation != ci 
+          clusterValidationErrors(ci,modelConf(1,1),modelConf(1,2),modelConf(1,3)) += 1;
+        end
       end
     end
   end
-end
 
-clusterValidationErrors
-
-
-# SELECT BEST k WITH VALIDATION SET - METHOD 2
-
-clusterVotes = zeros(cN,kN);
-
-for ci = cList  
-  for vi = validationList(:,:,ci)'
-    likelihoods = zeros(kN,1);
-    for ki = kList  
-
-      for kj = 1:ki
-        likelihoods(ki,1) += clusterSizes(sum(kList)*(cj-1)+sum(1:ki-1)+kj)*mgLikelihood(vi'([1 2]),clusterMeans(sum(kList)*(cj-1)+sum(1:ki-1)+kj,:),clusterCovars(2*sum(kList)*(cj-1)+2*sum(1:ki-1)+2*(kj-1)+[1 2],:) );
-      end
-           
+  clusterValidationErrors;
+  #}
+  
+  #{
+  # GET THE BEST MODEL BASED ON ERRORS OF ALL CLUSTER COMBINATIONS
+  
+  clusterValidationSumErrors = [];
+  for conf = 1:(kN^cN)
+    confValues = num2str(base2dec(dec2base(conf-1, 3),10),'%03d');
+    modelConf = zeros(1,cN);
+    for ci = cList
+      modelConf(1,ci) = str2num(confValues(ci))+1; 
     end
-    [ignore1 estimation] = max(likelihoods);
-    clusterVotes(ci,estimation) += 1;
-      
+    
+    clusterValidationSumErrors(end+1) = sum(clusterValidationErrors(:,modelConf(1,1),modelConf(1,2),modelConf(1,3)));
   end
-end
+  [bestModelError bestModelConf] = min(clusterValidationSumErrors);
 
-clusterVotes
-#}
+  confValues = num2str(base2dec(dec2base(bestModelConf-1, 3),10),'%03d');
+  bestModel = zeros(1,cN);
+  for ci = cList
+    bestModel(1,ci) = str2num(confValues(ci))+1; 
+  end
 
-# MOCK RESULT LIST
-bestModel = zeros(1,cN);
-bestModel(1,1) = 1;
-bestModel(1,2) = 2;
-bestModel(1,3) = 1;
+  bestModel;
+  #}
 
+#{
 # CALCULATE ERROR WITH TEST SET
 
 clusterTestErrors = zeros(cN,1);
@@ -102,10 +102,8 @@ for ci = cList
       for kj = 1:ki
         likelihoods(cj,1) += clusterSizes(sum(kList)*(cj-1)+sum(1:ki-1)+kj)*mgLikelihood(vi'([1 2]),clusterMeans(sum(kList)*(cj-1)+sum(1:ki-1)+kj,:),clusterCovars(2*sum(kList)*(cj-1)+2*sum(1:ki-1)+2*(kj-1)+[1 2],:) );
       end
-    
       
     end
-   
    
     [ignore1 estimation] = max(likelihoods);
     
@@ -116,3 +114,4 @@ for ci = cList
 end
 
 clusterTestErrors
+#}

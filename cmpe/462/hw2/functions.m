@@ -15,7 +15,7 @@ function [meanvec covarvec sizevec] = EM(k,mydata)
   end
   
   
-  for EM_turn = 1:40
+  for EM_turn = 1:100
     # E-step
 
     ric_mat = zeros(N,k);

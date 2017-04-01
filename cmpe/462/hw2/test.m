@@ -1,4 +1,4 @@
-
+#{
 # class 0 // (-7.5 : 9)  // (-5 : 10)
 # k = 1 // 0.75 2.5
 # class 1 // (-11 : 4)  // ( -8 : 5)
@@ -13,6 +13,30 @@
 # class 2 // (-14 : 5)  // ( -13 : 4)
 # k = 1 // -4.5 -4.5
 
+ 
+#{
+# SELECT BEST k WITH VALIDATION SET - METHOD 2
+
+clusterVotes = zeros(cN,kN);
+
+for ci = cList  
+  for vi = validationList(:,:,ci)'
+    likelihoods = zeros(kN,1);
+    for ki = kList  
+
+      for kj = 1:ki
+        likelihoods(ki,1) += clusterSizes(sum(kList)*(cj-1)+sum(1:ki-1)+kj)*mgLikelihood(vi'([1 2]),clusterMeans(sum(kList)*(cj-1)+sum(1:ki-1)+kj,:),clusterCovars(2*sum(kList)*(cj-1)+2*sum(1:ki-1)+2*(kj-1)+[1 2],:) );
+      end
+           
+    end
+    [ignore1 estimation] = max(likelihoods);
+    clusterVotes(ci,estimation) += 1;
+      
+  end
+end
+
+clusterVotes;
+#}
 
 
 # In gaussian, likelihood = normpdf function
@@ -240,3 +264,12 @@ end
 
 idx = cluster(gmdistribution(tempmeans,covarvec,sizevec),class0_training(:,[1 2]))
 #}
+
+#}
+
+aaa = [102 2 3 4];
+conf = 10;
+confValues = num2str(base2dec(dec2base(conf, 3),10),'%03d');
+
+aaa(1)
+

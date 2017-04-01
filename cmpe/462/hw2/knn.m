@@ -46,4 +46,17 @@ for ki = kList
 end
 
 best_k
+
+classificationError = zeros(kSize,cSize);
+for ki = 1:kSize
+  for ci = 1:cSize
+    # Classification error with knn with kList(ki) on the ci th class
+    accuracy = classificationList(ci,ci,ki)/sum(classificationList(:,ci,ki));
+    error = 1 - accuracy;
+    classificationError(ki,ci) = error;
+    
+  end
+end
+classificationError
+
 classificationList

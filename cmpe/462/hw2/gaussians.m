@@ -3,7 +3,7 @@ cN = size(cList)(2);
 kList = [1 2 3];
 kN = size(kList)(2);
 
-
+#{
 # OBTAIN MEANS, COVARIANCES AND SIZES
 clusterMeans = [];
 clusterCovars =[];
@@ -80,16 +80,17 @@ for ci = cList
 end
 
 clusterVotes
+#}
 
 # MOCK RESULT LIST
 bestModel = zeros(1,cN);
-bestModel(1,1) = 2;
-bestModel(1,2) = 3;
+bestModel(1,1) = 1;
+bestModel(1,2) = 2;
 bestModel(1,3) = 1;
 
 # CALCULATE ERROR WITH TEST SET
 
-clusterTestErrors = zeros(cN,kN);
+clusterTestErrors = zeros(cN,1);
 
 for ci = cList  
   for vi = validationList(:,:,ci)'
@@ -97,7 +98,7 @@ for ci = cList
     likelihoods = zeros(cN,1);
     for cj = cList
     
-      ki = bestModel(1,cj)
+      ki = bestModel(1,cj);
       for kj = 1:ki
         likelihoods(cj,1) += clusterSizes(sum(kList)*(cj-1)+sum(1:ki-1)+kj)*mgLikelihood(vi'([1 2]),clusterMeans(sum(kList)*(cj-1)+sum(1:ki-1)+kj,:),clusterCovars(2*sum(kList)*(cj-1)+2*sum(1:ki-1)+2*(kj-1)+[1 2],:) );
       end
@@ -109,7 +110,7 @@ for ci = cList
     [ignore1 estimation] = max(likelihoods);
     
     if estimation != ci 
-      clusterTestErrors(ci,ki) += 1;
+      clusterTestErrors(ci,1) += 1;
     end
   end
 end

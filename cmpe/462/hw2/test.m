@@ -135,6 +135,7 @@ mgLikelihood([1 2], [2 2], [1 0;0 5]);
 size(class0_training);
 size(class0_training)(1);
 
+
 #{
 # M-step
     mc_vec = mean(ric_mat_norm);
@@ -184,4 +185,58 @@ kList = [1 2 3];
 cj=3;
 ki=3;
 kj=3;
-2*sum(kList)*(cj-1)+2*sum(1:ki-1)+2*(kj-1)+[1 2]
+2*sum(kList)*(cj-1)+2*sum(1:ki-1)+2*(kj-1)+[1 2];
+
+
+kList = [1 2 3];
+cj=2;
+ki=1;
+kj=1;
+sum(kList)*(cj-1)+sum(1:ki-1)+kj;
+
+k = 3;
+   
+sizevec = zeros(1,k);
+for temp = 1:k
+  sizevec(1,temp) = 1/k;
+end
+sizevec;
+
+temp1 = [1 2; 3 4 ; 5 7];
+temp1 = temp1.^2;
+realsqrt(temp1);
+
+temp1 - [1 2];
+
+size(class0_training(:,[1]))
+[a b] = kmeans(class0_training(:,[1 2]),3);
+b;
+b(1,:);
+b(2,:);
+b(3,:);
+
+mydata = class0_training;
+N = size(mydata)(1);
+  
+sizevec = zeros(1,k);
+for temp = 1:k
+  sizevec(1,temp) = 1/k;
+end
+
+
+#{
+[ignore1 tempmeans] = kmeans(class0_training(:,[1 2]),k);
+
+k=3;
+meanvec = [];
+[ignore1 tempmeans] = kmeans(mydata(:,[1 2]),k);
+covarvec = [];
+sizevec = zeros(1,k);
+for tempIndex = 1:k
+  meanvec(:,:,tempIndex) = tempmeans(tempIndex,:);
+  covarvec(:,:,tempIndex) = covarianceEstimate(mydata,meanvec(:,:,tempIndex));
+  sizevec(1,tempIndex) = 1/k;
+end
+
+idx = cluster(gmdistribution(tempmeans,covarvec,sizevec),class0_training(:,[1 2]))
+#}

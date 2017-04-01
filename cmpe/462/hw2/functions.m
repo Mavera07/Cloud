@@ -1,21 +1,20 @@
 
 k=0;mydata=[];
-function [meanvec covarvec] = EM(k,mydata)
+function [meanvec covarvec sizevec] = EM(k,mydata)
+  
   N = size(mydata)(1);
-  # sizevec
-  # meanvec
-  # varvec
-  k = 3;
-  sizevec = [0.33 0.33 0.33];
+  
   meanvec = [];
-  meanvec(:,:,1) =[-6 -3];
-  meanvec(:,:,2) =[0 3.5];
-  meanvec(:,:,3) =[6 8];
+  [ignore1 tempmeans] = kmeans(mydata(:,[1 2]),k);
   covarvec = [];
-  covarvec(:,:,1) = covarianceEstimate(mydata,meanvec(:,:,1)); 
-  covarvec(:,:,2) = covarianceEstimate(mydata,meanvec(:,:,2)); 
-  covarvec(:,:,3) = covarianceEstimate(mydata,meanvec(:,:,3)); 
-
+  sizevec = zeros(1,k);
+  for tempIndex = 1:k
+    meanvec(:,:,tempIndex) = tempmeans(tempIndex,:);
+    covarvec(:,:,tempIndex) = covarianceEstimate(mydata,meanvec(:,:,tempIndex));
+    sizevec(1,tempIndex) = 1/k;
+  end
+  
+  
   for EM_turn = 1:20
     # E-step
 
@@ -72,19 +71,17 @@ function result = covarianceEstimate(mydata,mvec)
   result = (1/N)*(temp1')*temp1;
 end
 
+
 # gaussian -- upwards
+# --------------------------------------------------
+
 # --------------------------------------------------
 # knn -- downwards
 
 mydata=[]; mypoint=[];
 function result = distListOfPointsToPoint(mydata, mypoint)
-  N = size(mydata)(1);
-  result = zeros(N,1);
-  for i = 1:N
-    temp1 = mypoint(1)-mydata(i,1);
-    temp2 = mypoint(2)-mydata(i,2);
-    result(i) = sqrt(temp1^2+temp2^2);
-  end
+  result = (mydata(:,[1:2]) - mypoint').^2;
+  result = realsqrt(abs(result(:,1)-result(:,2)));
 end
 
 

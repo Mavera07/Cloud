@@ -1,3 +1,5 @@
+# statistics package is needed
+pkg load statistics;
 
 # Functions used in gaussian -- downwards
 
@@ -52,10 +54,11 @@ function [meanvec covarvec sizevec] = EM(k,mydata)
       end   
     end
 
-    # M-step
-    
     ric_mat_all = sum(ric_mat')';
     ric_mat_norm = ric_mat ./ ric_mat_all ;
+    
+    # M-step
+    
 
     for c = 1:k
     
@@ -69,12 +72,12 @@ function [meanvec covarvec sizevec] = EM(k,mydata)
       end
       meanvec(:,:,c) /= mc;
       
-      varvec(:,:,c) = zeros(2,2);
+      covarvec(:,:,c) = zeros(2,2);
       for i = 1:N
         temp = mydata(i,1:2)-meanvec(:,:,c);
-        varvec(:,:,c) += (ric_mat_norm(i,c)*(temp')*temp);
+        covarvec(:,:,c) += (ric_mat_norm(i,c)*(temp')*temp);
       end
-      varvec(:,:,c) /= mc;
+      covarvec(:,:,c) /= mc;
     end
   end
   
@@ -84,9 +87,9 @@ end
 # It takes three arguments xi, mvec, covar
 # It calculates the likelihood of xi being in the gaussian with mvec and covar
 #
-# xi : A multidimensional point
-# mvec : Multidimensional mean vector of the gaussian
-# covar : Covariance matrix of the gaussian
+# xi : A multidimensional point (1-by-2)
+# mvec : Multidimensional mean vector of the gaussian (1-by-2)
+# covar : Covariance matrix of the gaussian (2-by-2)
 #
 # It applies the formula of multivariate gaussian likelihood
 #
@@ -95,14 +98,18 @@ xi=[]; mvec=[]; covar=[];
 function result = mgLikelihood(xi,mvec,covar)
 
   d = size(xi)(2);
-  temp1 = 1/( sqrt((2*pi)^d) );
+  temp1 = (2*pi)^(-d/2); 
+  temp3 = xi-mvec;
+  #{
   temp2 = 1/sqrt(det(covar));
   
-  temp3 = xi-mvec;   
-  temp4 = (-1/2)*temp3*inv(covar)*(temp3');
+     
+  temp4 = (-1/2)*(temp3)*inv(covar)*(temp3');
   temp5 = exp(temp4);
   
   result = temp1*temp2*temp5;
+  #}
+  result = temp1 * exp ((-1/2)*sumsq ((xi-mvec)/chol(covar), 2)) / prod (diag (chol(covar)));
 end
 
 # Covariance estimator function

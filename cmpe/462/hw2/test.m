@@ -303,3 +303,10 @@ for cj = cList
   end
 end
 
+#}
+
+mgLikelihood([4 15],[3.5 16],[5 2;4 2])
+mvnpdf([4 15],[3.5 16],[5 2;4 2])
+
+cov([5 2;4 2],[2 3])
+covarianceEstimate([5 2;4 2],[2 3])

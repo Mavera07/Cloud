@@ -1,3 +1,12 @@
+
+# Following command converts doubles to integers
+# allData = [col1 col2 col3];
+
+# Matrix conditional selections
+# find(col3==0)
+# col3==0
+# allData(list1>list2)
+
 #{
 # class 0 // (-7.5 : 9)  // (-5 : 10)
 # k = 1 // 0.75 2.5

@@ -93,7 +93,7 @@ end
 clusterTestErrors = zeros(cN,1);
 
 for ci = cList  
-  for vi = validationList(:,:,ci)'
+  for vi = testList(:,:,ci)'
   
     likelihoods = zeros(cN,1);
     for cj = cList

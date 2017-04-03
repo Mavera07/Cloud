@@ -265,11 +265,32 @@ end
 idx = cluster(gmdistribution(tempmeans,covarvec,sizevec),class0_training(:,[1 2]))
 #}
 
-#}
 
 aaa = [102 2 3 4];
 conf = 10;
 confValues = num2str(base2dec(dec2base(conf, 3),10),'%03d');
 
-aaa(1)
+aaa(1);
+
+#}
+
+figure;
+hold;
+
+plot(class0_training(:,1),class0_training(:,2),"*b");
+plot(class1_training(:,1),class1_training(:,2),"*r")
+plot(class2_training(:,1),class2_training(:,2),"*g")
+
+bestModel(1,1) = 3;
+bestModel(1,2) = 3;
+bestModel(1,3) = 3;
+
+for cj = cList  
+
+  ki = bestModel(1,cj);
+  for kj = 1:ki
+    tempMean1 = clusterMeans(sum(kList)*(cj-1)+sum(1:ki-1)+kj,:);
+    plot(tempMean1(1,1),tempMean1(1,2),"k*","markersize",30)
+  end
+end
 

@@ -3,7 +3,7 @@ cN = size(cList)(2);
 kList = [1 2 3];
 kN = size(kList)(2);
 
-#{
+
 # OBTAIN MEANS, COVARIANCES AND SIZES
 clusterMeans = [];
 clusterCovars =[];
@@ -27,7 +27,7 @@ end
  
 # SELECT BEST k WITH VALIDATION SET
   
-  #{
+  
   # CALCULATE ERRORS OF ALL CLUSTER COMBINATIONS
   
   clusterValidationErrors = zeros(cN,kN,kN,kN);
@@ -60,10 +60,10 @@ end
     end
   end
 
-  clusterValidationErrors;
+  clusterValidationErrors
   #}
   
-  #{
+  
   # GET THE BEST MODEL BASED ON ERRORS OF ALL CLUSTER COMBINATIONS
   
   clusterValidationSumErrors = [];
@@ -84,10 +84,10 @@ end
     bestModel(1,ci) = str2num(confValues(ci))+1; 
   end
 
-  bestModel;
+  bestModel
   #}
 
-#{
+
 # CALCULATE ERROR WITH TEST SET
 
 clusterTestErrors = zeros(cN,1);

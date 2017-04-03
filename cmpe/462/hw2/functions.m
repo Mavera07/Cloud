@@ -15,7 +15,7 @@ function [meanvec covarvec sizevec] = EM(k,mydata)
   end
   
   
-  for EM_turn = 1:100
+  for EM_turn = 1:20
     # E-step
 
     ric_mat = zeros(N,k);
@@ -33,16 +33,21 @@ function [meanvec covarvec sizevec] = EM(k,mydata)
     for c = 1:k
     
       mc = sum(ric_mat_norm(:,c));
+      
       sizevec(c)= mc/sum(sum(ric_mat_norm));
+      
       meanvec(:,:,c) = zeros(1,2);
       for i = 1:N
-        meanvec(:,:,c) += (mydata(i,1:2) * ric_mat_norm(i,c) )/mc;
+        meanvec(:,:,c) += (mydata(i,1:2) * ric_mat_norm(i,c) );
       end
+      meanvec(:,:,c) /= mc;
+      
       varvec(:,:,c) = zeros(2,2);
       for i = 1:N
         temp = mydata(i,1:2)-meanvec(:,:,c);
-        varvec(:,:,c) += (ric_mat_norm(i,c)*(temp')*temp)/mc;
+        varvec(:,:,c) += (ric_mat_norm(i,c)*(temp')*temp);
       end
+      varvec(:,:,c) /= mc;
     end
   end
   
@@ -56,8 +61,8 @@ function result = mgLikelihood(xi,mvec,covar)
   d = size(xi)(2);
   temp1 = 1/( sqrt((2*pi)^d) );
   temp2 = 1/sqrt(det(covar));
-  temp3 = xi-mvec;
-   
+  
+  temp3 = xi-mvec;   
   temp4 = (-1/2)*temp3*inv(covar)*(temp3');
   temp5 = exp(temp4);
   

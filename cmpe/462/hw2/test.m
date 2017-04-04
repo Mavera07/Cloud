@@ -286,27 +286,26 @@ aaa(1);
 figure;
 hold;
 
-plot(class0_training(:,1),class0_training(:,2),"*b");
-plot(class1_training(:,1),class1_training(:,2),"*r")
-plot(class2_training(:,1),class2_training(:,2),"*g")
+plot(class0_training(:,1),class0_training(:,2),".b","markersize",4);
+plot(class1_training(:,1),class1_training(:,2),".r","markersize",4)
+plot(class2_training(:,1),class2_training(:,2),".g","markersize",4)
 
-bestModel(1,1) = 3;
-bestModel(1,2) = 3;
-bestModel(1,3) = 3;
 
 for cj = cList  
 
   ki = bestModel(1,cj);
   for kj = 1:ki
     tempMean1 = clusterMeans(sum(kList)*(cj-1)+sum(1:ki-1)+kj,:);
-    plot(tempMean1(1,1),tempMean1(1,2),"k*","markersize",30)
+    plot(tempMean1(1,1),tempMean1(1,2),"m.","markersize",20)
   end
 end
 
 #}
 
+#{
 mgLikelihood([4 15],[3.5 16],[5 2;4 2])
 mvnpdf([4 15],[3.5 16],[5 2;4 2])
 
 cov([5 2;4 2],[2 3])
 covarianceEstimate([5 2;4 2],[2 3])
+#}

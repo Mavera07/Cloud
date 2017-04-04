@@ -24,7 +24,7 @@ for ki = kList
     for vi = validationList(:,:,ci)'
     
       estimation = knnVoteResult(cList,ki,trainingList,vi([1 2]));  
-      if estimation != (ci-1)
+      if estimation != ci
         errorCountForK +=1;
       end
   
@@ -57,31 +57,50 @@ best_k = kList(IndexK);
 classificationList = zeros(kSize,cSize,cSize);
 for ki = kList
     
-  errorCountForK = 0;
   for ci = cList
     
     for vi = testList(:,:,ci)'
     
       estimation = knnVoteResult(cList,ki,trainingList,vi([1 2]));  
-      classificationList(estimation+1,ci,find(kList==ki)) +=1;
+      classificationList(estimation,ci,find(kList==ki)) +=1;
       
     end 
   end
 end
 
-classificationError = zeros(kSize,cSize);
-for ki = 1:kSize
-  for ci = 1:cSize
-    # Classification error with knn with kList(ki) on the ci_th class
-    accuracy = classificationList(ci,ci,ki)/sum(classificationList(:,ci,ki));
-    error = 1 - accuracy;
-    classificationError(ki,ci) = error;
-    
-  end
-end
 
-best_k
+printf("\tBest model\n");
+printf("----------------------------------------\n");
+printf("k Nearest Neighbour size = %d\n",best_k)
+printf("----------------------------------------\n");
+printf("\n\n");
 
-classificationError
+printf("\tPrediction errors for\n");printf("\teach k option; 1,10,40\n");
+printf("----------------------------------------\n");
+printf("k Nearest Neighbour size = 1   -->  %d %%  \n",(sum(sum(classificationList(:,:,1)))-sum(diag(classificationList(:,:,1))))/15);
+printf("k Nearest Neighbour size = 10  -->  %d %%  \n",(sum(sum(classificationList(:,:,2)))-sum(diag(classificationList(:,:,2))))/15);
+printf("k Nearest Neighbour size = 40  -->  %d %%  \n",(sum(sum(classificationList(:,:,3)))-sum(diag(classificationList(:,:,3))))/15);
+printf("----------------------------------------\n");
+printf("\n\n");
 
-classificationList
+printf("\tConfusion matrix for\n");printf("\teach k option; 1,10,40\n");
+printf("----------------------------------------\n");
+printf("k Nearest Neighbour size = 1\n\n");
+printf("\tPredicted\n"); printf("\tclass no -->  0    1     2\n\n");
+printf("Class 0 test set :   %d   %d   %d\n",classificationList(1,1,1),classificationList(2,1,1),classificationList(3,1,1));
+printf("Class 1 test set :   %d   %d   %d\n",classificationList(1,2,1),classificationList(2,2,1),classificationList(3,2,1));
+printf("Class 2 test set :   %d    %d   %d\n",classificationList(1,3,1),classificationList(2,3,1),classificationList(3,3,1));
+printf("----------------------------------------\n");
+printf("k Nearest Neighbour size = 10\n\n");
+printf("\tPredicted\n"); printf("\tclass no -->  0    1     2\n\n");
+printf("Class 0 test set :   %d   %d    %d\n",classificationList(1,1,2),classificationList(2,1,2),classificationList(3,1,2));
+printf("Class 1 test set :   %d    %d   %d\n",classificationList(1,2,2),classificationList(2,2,2),classificationList(3,2,2));
+printf("Class 2 test set :   %d    %d   %d\n",classificationList(1,3,2),classificationList(2,3,2),classificationList(3,3,2));
+printf("----------------------------------------\n");
+printf("k Nearest Neighbour size = 40\n\n");
+printf("\tPredicted\n"); printf("\tclass no -->  0    1     2\n\n");
+printf("Class 0 test set :   %d   %d   %d\n",classificationList(1,1,3),classificationList(2,1,3),classificationList(3,1,3));
+printf("Class 1 test set :   %d    %d   %d\n",classificationList(1,2,3),classificationList(2,2,3),classificationList(3,2,3));
+printf("Class 2 test set :   %d     %d   %d\n",classificationList(1,3,3),classificationList(2,3,3),classificationList(3,3,3));
+printf("----------------------------------------\n");
+printf("\n\n");

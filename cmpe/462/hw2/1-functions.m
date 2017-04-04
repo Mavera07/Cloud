@@ -4,6 +4,7 @@ pkg load statistics;
 # Functions used in gaussian -- downwards
 
 
+
 # Expectation-Maximization function
 #
 # It takes two parameters k, mydata
@@ -163,6 +164,8 @@ end
 # It counts the classes of these k points
 # 
 # The function returns the class number that have the highest count  
+# In the end, result value is incremented by one because
+# calculated value is in the range of 0 to 2 but the program needs 1 to 3.
 k=0; mydata=[]; mypoint=[]; cList=[];
 function result = knnVoteResult(cList,k,mydata,mypoint)
  
@@ -178,6 +181,7 @@ function result = knnVoteResult(cList,k,mydata,mypoint)
   distances = sortrows(distances);
   distances = distances(1:k,:);
   result = mode(distances(:,2));
+  result += 1; 
   
 end
 

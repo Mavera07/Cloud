@@ -296,7 +296,7 @@ for cj = cList
   ki = bestModel(1,cj);
   for kj = 1:ki
     tempMean1 = clusterMeans(sum(kList)*(cj-1)+sum(1:ki-1)+kj,:);
-    plot(tempMean1(1,1),tempMean1(1,2),"m.","markersize",20)
+    plot(tempMean1(1,1),tempMean1(1,2),"k.","markersize",20)
   end
 end
 

@@ -1,0 +1,5 @@
+# powerpoint - show object when mouse clicked
+
+  - click on object
+  - add animation
+  - select appear

@@ -1,0 +1,12 @@
+# jquery .get() function
+
+# Example:
+
+  <ul>
+    <li id="foo">foo</li>
+    <li id="bar">bar</li>
+  </ul>
+
+# Code:
+
+  console.log( $( "li" ).get( 0 ) );

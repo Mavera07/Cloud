@@ -1,0 +1,14 @@
+# jquery .each() function
+
+# version 1
+
+  $.each([ 52, 97 ], function( index, value ) {
+      alert( index + ": " + value );
+  });
+
+
+# version 2
+
+  $("th").each(function(){
+     this.getAttribute("data-tableno");
+  });

@@ -1,0 +1,14 @@
+# jquery remove a class
+
+# Example
+
+    $(".th-customize1").click(function () {
+        $("th").filter("[data-tableno!="+this.getAttribute("data-tableno")+"]").each(function () {
+            if(this.classList.contains("sorttable_sorted")){
+                this.classList.remove("sorttable_sorted");
+            }else if(this.classList.contains("sorttable_sorted_reverse")){
+                this.classList.remove("sorttable_sorted_reverse");
+            }
+        });
+    });
+

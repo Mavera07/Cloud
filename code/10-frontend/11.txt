@@ -1,0 +1,10 @@
+# javascript - remove an element from a list
+
+# Example
+
+  oldList = (1,3,6,0);
+  unwanted = 3;
+  oldList = oldList.filter(function (tempi) {
+                              return tempi != unwanted;
+                          });
+

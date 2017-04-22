@@ -1,0 +1,5 @@
+# jquery .length function
+
+# Example
+
+    var numberOfRows = $("tr").filter("[data-tableno="+checkboxTableno+"]").length;

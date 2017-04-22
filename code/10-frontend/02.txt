@@ -1,0 +1,5 @@
+# html custom attributes for storing data
+
+<button data-function="reset" data-tableno="2" type="button">RESET</button>
+<span data-rowno="4" data-tableno="2"></span>
+

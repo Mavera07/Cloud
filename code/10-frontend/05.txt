@@ -1,0 +1,15 @@
+# jquery .filter() function
+
+# Example 1
+
+        $("th").filter("[data-tableno!="+this.getAttribute("data-tableno")+"]").each(function () {
+            if(this.classList.contains("sorttable_sorted")){
+                this.classList.remove("sorttable_sorted");
+            }else if(this.classList.contains("sorttable_sorted_reverse")){
+                this.classList.remove("sorttable_sorted_reverse");
+            }
+        });
+
+# Example 2
+
+        $("button[data-function='reset']").filter("[data-tableno="+checkboxTableno+"]").get(0).setAttribute("data-rowList","");

@@ -1,0 +1,6 @@
+# javascript .join() function
+
+# Example
+
+  var fruits = ["Banana", "Orange", "Apple", "Mango"];
+  var text = fruits.join("->");

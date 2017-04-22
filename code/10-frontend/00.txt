@@ -1,0 +1,20 @@
+# html form
+# stop input field from being submitted
+
+# Problematic case
+
+<form action="/results" method="get">
+    <input type="text" name="fields">
+    <input type="text" name="ignored">
+</form>
+
+# Solution
+
+# Insert attributes with no "name" attribute
+
+<form action="/results" method="get">
+    <input type="text" name="fields">
+    <input type="text">
+</form>
+
+

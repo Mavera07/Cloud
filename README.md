@@ -1,8 +1,7 @@
 # Cloud
 
-### Cmpe
-
-##### Cmpe492
+### Cmpe 
+* Cmpe492
 
 ### Code
 

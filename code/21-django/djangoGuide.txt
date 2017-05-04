@@ -1,0 +1,9 @@
+Create virtual environment:
+    virtualenv -p python3.5 virt
+    pip install Django
+
+Create Django project:
+    django-admin startproject NoteApp
+
+Start an app in Django:
+    python manage.py startapp app1

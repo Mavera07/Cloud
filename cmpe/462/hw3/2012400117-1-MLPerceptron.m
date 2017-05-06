@@ -80,28 +80,37 @@ end
 # Function for calculating the change in v_ih
 temp_LearningRate=0; temp_pvec=[];temp_zvec=[];temp_i=0;temp_j =0;temp_h=0;
 function tempval = calculate_vih(temp_LearningRate, temp_pvec,temp_zvec,temp_i,temp_h,temp_j)
-  if temp_i == temp_j
-    tempval = temp_LearningRate*(1-temp_pvec(temp_j))*temp_zvec(temp_h);
-  else
-    tempval = temp_LearningRate*(-temp_pvec(temp_i))*temp_zvec(temp_h);
+  tempval = temp_pvec(temp_i);
+  if(temp_i == temp_j)
+    tempval -= 1;  
   end
+  tempval *= (-temp_LearningRate);
 end
 # Function for calculating the change in w_hk
-temp_LearningRate=0; temp_pvec=[];temp_vih=[];temp_zvec=[]; temp_xvec=[];temp_h=0;temp_k=0;temp_j =0;
+temp_LearningRate=0; temp_pvec=[];temp_vih=[];temp_ovec=[];temp_zvec=[]; temp_xvec=[];temp_h=0;temp_k=0;temp_j =0;
 function tempval = calculate_whk(temp_LearningRate,temp_ovec,temp_vih,temp_zvec,temp_xvec,temp_h,temp_k,temp_j)
   tempval = -temp_LearningRate;
+  tempval *= (-1);
   
   temp2 = 0;
-  temp3 = 0;
-  
-  for tempIndex = 1:3
-    temp2+=exp(temp_ovec(tempIndex))*temp_vih(tempIndex,temp_h);
-    temp3+=exp(temp_ovec(tempIndex));
+  for tempIndex = 1:5
+    temp2 += temp_vih(temp_j,tempIndex)*(1-(temp_zvec(tempIndex))^2)*temp_xvec(temp_k);
   end
   
-  tempval *= (temp2/temp3) - temp_vih(temp_j,temp_h);
+  temp3 = 0;
+  for tempIndex1 = 1:3
+    for tempIndex2 = 1:5
+      temp3 += temp_vih(tempIndex1,tempIndex2)*(1-(temp_zvec(tempIndex))^2)*temp_xvec(temp_k);
+    end
+  end
   
-  tempval *= (1-(temp_zvec(temp_h))^2)*temp_xvec(temp_k);
+  temp4 = 0;
+  for tempIndex = 1:3
+    temp4 += exp(temp_ovec(tempIndex));
+  end
+  
+  tempval *= (temp2 - temp3/temp4);
+  
 end
 
 
@@ -111,14 +120,14 @@ end
 # IN EACH ITERATION, PROCESS ON ALL TRAINING SET
 tempDatasetSize = size(trainingList,1);
 tempNumberofLoops = 0;
-while(tempNumberofLoops < 10)
+while(tempNumberofLoops < 20)
   tempErrorCount = 0;
   # FOR EACH POINT IN THE TRAINING SET, UPDATE THE PERCEPTRON
   for vi = trainingList'
     # CALCULATE VECTORS OF EACH LAYER AND CALCULATE ERROR
-    x_vec = [1 vi'(1:2)]
-    z_vec = calculate_zvec(x_vec,w_hk)
-    o_vec = calculate_ovec(z_vec,v_ih)
+    x_vec = [1 vi'(1:2)];
+    z_vec = calculate_zvec(x_vec,w_hk);
+    o_vec = calculate_ovec(z_vec,v_ih);
     p_vec = calculate_pvec(o_vec);
     
     # error_training = calculate_error(p_vec(vi(3)+1));

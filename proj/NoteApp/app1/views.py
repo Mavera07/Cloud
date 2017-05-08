@@ -25,5 +25,10 @@ def index(request):
         ff.readline(); focusInfo.append(ff.readline()); ff.readline()
         ff.readline(); focusInfo.append(ff.readline()); ff.readline()
 
-    context = {"focusPath":focusPath,"focusName":focusInfo[0].strip(),"focusDirs":focusDirs, "focusFiles":focusFiles }
+    print(range(1,3))
+
+    context = {"focusPath":focusPath,
+                "focusName":focusInfo[0].strip(),
+                "focusDirs":focusDirs, 
+                "focusFiles":focusFiles }
     return render(request, 'index.html', context)

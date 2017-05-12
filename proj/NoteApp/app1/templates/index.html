@@ -2,47 +2,76 @@
 {% load static %}
 {% block content %}
 
-<div id="mynetwork"></div>
+
+    <div id="mynetwork" style="margin-top: 40px"></div>
+    <div align="right">
+        <button class="btn btn-lg btn-info" onclick="navigateToParent('{{ focusPath }}');">Back to parent</button>
+    </div>
 
 
-<style type="text/css">
-    #mynetwork {
-        width: 100%;
-        height: 940px;
-        border: 1px solid lightgray;
-    }
-</style>
+    <style type="text/css">
+        #mynetwork {
+            width: 100%;
+            height: 800px;
+            border: 1px solid lightgray;
+        }
+    </style>
 
-<script type="text/javascript">
-    // create an array with nodes
-    var childDirs = "{{ focusDirNames|safe }}".replace(/\'/ig,'\"').trim();
-    childDirs = JSON.parse(childDirs);
-    var childDirSize = childDirs.length;
+    <script type="text/javascript">
 
-    var nodeData = [];
-    nodeData.push( {id: 1, label: '{{ focusName }}'} );
-    for(var ii = 0;ii< childDirSize; ii++){nodeData.push( {id: ii+2, label: childDirs[ii] } );}
-    var nodes = new vis.DataSet(nodeData);
+        var childDirLabels = "{{ focusDirNames|safe }}".replace(/\'/ig,'\"').trim();
+        childDirLabels = JSON.parse(childDirLabels);
+        var childDirNames = "{{ focusDirs|safe }}".replace(/\'/ig,'\"').trim();
+        childDirNames = JSON.parse(childDirNames);
 
+        var childDirSize = childDirLabels.length;
 
-    var edgeData = [];
-    for(var ii = 0;ii< childDirSize; ii++){edgeData.push( {from: 1, to: ii+2 ,length: 320} );}
-    var edges = new vis.DataSet(edgeData);
+        var nodeData = [];
+        nodeData.push( {id: 1, group: 'focus', label: '{{ focusName }}'} );
+        for(var ii = 0;ii< childDirSize; ii++){nodeData.push( {id: ii+2, label: childDirLabels[ii] } );}
+        var nodes = new vis.DataSet(nodeData);
 
 
-    var container = document.getElementById('mynetwork');
-    var data = {nodes: nodes,edges: edges,};
-    var options = {
-      nodes:{
-        shape : 'box',
-        scaling: {label: {enabled: true,},},
-        font: '40px arial black',
-        margin: 15,
-      },
-    };
+        var edgeData = [];
+        for(var ii = 0;ii< childDirSize; ii++){edgeData.push( {from: 1, to: ii+2 ,length: 380} );}
+        var edges = new vis.DataSet(edgeData);
 
-    // initialize your network!
-    var network = new vis.Network(container, data, options);
-</script>
+
+        var container = document.getElementById('mynetwork');
+        var data = {nodes: nodes,edges: edges,};
+        var options = {
+          nodes:{
+            shape : 'box',
+            scaling: {label: {enabled: true,},},
+            font: '40px arial black',
+            margin: 15,
+          },
+          groups: {
+            focus: {color:{background:'green',border:'black'},borderWidth:8}
+          },
+        };
+
+        // initialize your network!
+        var network = new vis.Network(container, data, options);
+
+        network.on("click",function (nwparams) {
+            var clickedNodeId = nwparams['nodes'][0]
+
+            if(clickedNodeId != undefined){
+                var clickedNode = nodes.get(clickedNodeId);
+                var clickedName = clickedNode["label"]
+
+                if(clickedName == "{{ focusName }}"){
+                    window.location.href = "/node?path="+"{{ focusPath }}";
+                }
+
+                var clickedDirIndex = childDirLabels.indexOf(clickedName);
+                var clickedDirName = childDirNames[clickedDirIndex];
+                if(clickedDirName != undefined){
+                    window.location.href = "/index?path="+"{{ focusPath }}"+"/"+clickedDirName;
+                }
+            }
+        });
+    </script>
 
 {% endblock content %}

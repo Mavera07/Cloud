@@ -2,7 +2,6 @@
 {% load static %}
 {% block content %}
 
-
 <div id="mynetwork"></div>
 
 
@@ -16,7 +15,7 @@
 
 <script type="text/javascript">
     // create an array with nodes
-    var childDirs = "{{ focusDirs|safe }}".replace(/\'/ig,'\"').trim();
+    var childDirs = "{{ focusDirNames|safe }}".replace(/\'/ig,'\"').trim();
     childDirs = JSON.parse(childDirs);
     var childDirSize = childDirs.length;
 
@@ -37,7 +36,7 @@
       nodes:{
         shape : 'box',
         scaling: {label: {enabled: true,},},
-        font: '42px arial black',
+        font: '40px arial black',
         margin: 15,
       },
     };

@@ -12,7 +12,11 @@ def index(request):
    
     # TODO focusPath will be updated by using request
     focusPath = settings.BASE_DIR+"/storage/data/0"
-    focusInfoPath = focusPath+"/.init.noteapp"
+
+    focusInfo = []
+    with open(focusPath+"/.init.noteapp",'r') as ff:
+        ff.readline(); focusInfo.append(ff.readline()); ff.readline()
+        ff.readline(); focusInfo.append(ff.readline()); ff.readline()
 
     focusFiles = [];focusDirs = [];
     for (dirpath, dirnames, filenames) in walk(focusPath):
@@ -20,13 +24,15 @@ def index(request):
         focusDirs.extend(dirnames)
         break
 
-    focusInfo = []
-    with open(focusInfoPath,'r') as ff:
-        ff.readline(); focusInfo.append(ff.readline()); ff.readline()
-        ff.readline(); focusInfo.append(ff.readline()); ff.readline()
+    focusDirNames = []
+    for dir_x in focusDirs:
+        with open(focusPath+"/"+dir_x+"/.init.noteapp",'r') as ff:
+            ff.readline();focusDirNames.append(ff.readline().strip());ff.readline()
+
 
     context = {"focusPath":focusPath,
                 "focusName":focusInfo[0].strip(),
-                "focusDirs":focusDirs, 
+                "focusDirs":focusDirs,
+                "focusDirNames":focusDirNames,
                 "focusFiles":focusFiles }
     return render(request, 'index.html', context)

@@ -25,8 +25,6 @@ def index(request):
         ff.readline(); focusInfo.append(ff.readline()); ff.readline()
         ff.readline(); focusInfo.append(ff.readline()); ff.readline()
 
-    print(range(1,3))
-
     context = {"focusPath":focusPath,
                 "focusName":focusInfo[0].strip(),
                 "focusDirs":focusDirs, 

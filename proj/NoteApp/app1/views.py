@@ -1,7 +1,8 @@
 from django.shortcuts import render
 from django.conf import settings
 
-from os import walk
+import os
+import shutil
 
 # Create your views here.
 
@@ -15,7 +16,7 @@ def index(request):
         ff.readline(); focusInfo.append(ff.readline().strip()); ff.readline()
 
     focusFiles = [];focusDirs = [];
-    for (dirpath, dirnames, filenames) in walk(focusFullPath):
+    for (dirpath, dirnames, filenames) in os.walk(focusFullPath):
         focusFiles.extend(filenames); focusFiles.remove('.init.noteapp'); focusFiles.remove('.notes.noteapp')
         focusDirs.extend(dirnames)
         break
@@ -53,6 +54,44 @@ def ajax(request):
 
         with open(focusFullPath+"/.notes.noteapp",'w') as ff:
             ff.write(request.GET['savehtml'])
+    elif 'addnode' in request.GET and 'path' in request.GET:
+        focusPath = request.GET['path']
+        focusFullPath = settings.BASE_DIR + "/storage/data/" + focusPath
+
+        foldername = 0
+        while(os.path.isdir(focusFullPath+"/"+str(foldername))):
+            foldername += 1
+        newnodeFullPath = focusFullPath+"/"+str(foldername)
+        os.makedirs(newnodeFullPath)
+        with open(newnodeFullPath+"/.init.noteapp",'w') as ff:
+            ff.write("[filename]\n")
+            ff.write("new node\n")
+            ff.write("\n")
+        with open(newnodeFullPath+"/.notes.noteapp",'w') as ff:
+            ff.write("")
+
+    elif 'deletenode' in request.GET and 'path' in request.GET:
+        focusPath = request.GET['path']
+        focusFullPath = settings.BASE_DIR + "/storage/data/" + focusPath
+
+        shutil.rmtree(focusFullPath)
+
+    elif 'editnode' in request.GET and 'path' in request.GET and 'name' in request.GET:
+        focusPath = request.GET['path']
+        focusFullPath = settings.BASE_DIR + "/storage/data/" + focusPath
+
+        newFocusName = request.GET['name']
+
+        with open(focusFullPath+"/.init.noteapp",'r') as ff:
+            initFile = ff.readline()
+            initFile += newFocusName
+            ff.readline()
+            initFile += ''.join(ff.readlines())
+
+
+        with open(focusFullPath+"/.init.noteapp",'w') as ff:
+            ff.write(initFile)
+
 
     from django.http import HttpResponse
     response = HttpResponse("Here's the text of the Web page.")

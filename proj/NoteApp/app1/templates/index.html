@@ -5,9 +5,31 @@
 
     <div id="mynetwork" style="margin-top: 40px"></div>
     <div align="right">
+
+        <button class="btn btn-lg btn-info" data-toggle="modal" data-target="#nodenamemodal">Edit the node name</button>
+        <button class="btn btn-lg btn-info" onclick="deleteTheNode('{{ focusPath }}');">Delete the node</button>
+
+        <button class="btn btn-lg btn-info" onclick="addNewNode('{{ focusPath }}');">Add new node</button>
         <button class="btn btn-lg btn-info" onclick="navigateToParent('{{ focusPath }}');">Back to parent</button>
     </div>
 
+    <div id="nodenamemodal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Edit node name</h4>
+              </div>
+              <div class="modal-body">
+                <input id="editedfocusname" type="text" value="{{ focusName }}" />
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default btn-primary" onclick="editTheNode('{{ focusPath }}','{{ focusName }}')" data-dismiss="modal">Save</button>
+              </div>
+            </div>
+        </div>
+    </div>
 
     <style type="text/css">
         #mynetwork {
@@ -72,6 +94,7 @@
                 }
             }
         });
+
     </script>
 
 {% endblock content %}

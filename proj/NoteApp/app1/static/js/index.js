@@ -12,7 +12,7 @@ function navigateToParent(focusPath){
     if(temp !=null){
         window.location.href = "/index?path="+temp[1];
     }else{
-        window.location.href = "/index?path="+focusPath;
+        alert("Is this root?");
     }
 }
 

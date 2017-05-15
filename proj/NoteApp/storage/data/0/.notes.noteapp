@@ -1,1 +1,11 @@
-<p>Selam kuzutooo</p><p><br></p><p><br></p><ul><li>1</li><li>2</li><li>3</li></ul><p><br></p><p><br></p>
+<pre class="ql-syntax" spellcheck="false">    &lt;td&gt;&lt;button class="ql-bold"&gt;&lt;/button&gt;&lt;/td&gt;
+    &lt;td&gt;    &lt;button class="ql-italic"&gt;&lt;/button&gt;&lt;/td&gt;
+    &lt;td&gt;    &lt;button class="ql-underline"&gt;&lt;/button&gt;&lt;/td&gt;
+    &lt;td&gt;    &lt;button class="ql-strike"&gt;&lt;/button&gt;&lt;/td&gt;
+    &lt;td&gt;    &lt;button class="ql-code"&gt;&lt;/button&gt;&lt;/td&gt;
+    &lt;td&gt;    &lt;button class="ql-blockquote"&gt;&lt;/button&gt;&lt;/td&gt;
+    &lt;td&gt;    &lt;button class="ql-code-block"&gt;&lt;/button&gt;&lt;/td&gt;
+    &lt;td&gt;    &lt;button class="ql-color"&gt;&lt;/button&gt;&lt;/td&gt;
+    &lt;td&gt;    &lt;button class="ql-background"&gt;&lt;/button&gt;&lt;/td&gt;
+
+</pre><p>Oke</p><p>hi guys</p><p><br></p><p><br></p><p>I better find a solution.</p>

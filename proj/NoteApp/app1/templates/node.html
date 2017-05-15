@@ -2,42 +2,103 @@
 {% load static %}
 {% block content %}
 
-    <div style="margin-top: 80px;margin-left: 80px;margin-right: 80px;">
+    <div style="margin-top: 50px;margin-left: 20%;margin-right: 20%; min-width: 800px">
+        <div style="width: 100%; height: 40px; font-size: 30px; color: #ffffff; font-family:KaTeX_Typewriter; background-color: #2E8B57;text-align: center" >
+            TAKE NOTES
+        </div>
+        <div id="toolbar">
+            <table>
+                <col width="0%">
+                <col width="0%">
+                <col width="0%">
+                <col width="0%">
+                <col width="0%">
+                <col width="0%">
+                <col width="0%">
+                <col width="0%">
+                <col width="0%">
+                <col width="100%">
+                <col width="0%">
+                <col width="0%">
+                <col width="0%">
+                <col width="0%">
+                <tr>
+                    <td><button class="ql-bold"></button></td>
+                    <td>    <button class="ql-italic"></button></td>
+                    <td>    <button class="ql-underline"></button></td>
+                    <td>    <button class="ql-strike"></button></td>
+                    <td>    <button class="ql-code"></button></td>
+                    <td>    <button class="ql-blockquote"></button></td>
+                    <td>    <button class="ql-code-block"></button></td>
+                    <td>    <select class="ql-color"></select></td>
+                    <td>    <select class="ql-background"></select></td>
+                    <td>            </td>
+                    <td>
+                        <select class="ql-size">
+                            <option value="small"></option>
+                            <option selected></option>
+                            <option value="large"></option>
+                            <option value="huge"></option>
+                        </select>
+                    </td>
+                    <td>
+                        <select class="ql-header">
+                            <option value="1"></option>
+                            <option value="2"></option>
+                            <option value="3"></option>
+                            <option value="4"></option>
+                            <option value="5"></option>
+                            <option value="6"></option>
+                            <option selected></option>
+                        </select>
+                    </td>
+                    <td><select class="ql-font"></select></td>
+                    <td><button class="ql-clean"></button></td>
+                </tr>
+            </table>
+            <table>
+                <col width="0%">
+                <col width="0%">
+                <col width="0%">
+                <col width="0%">
+                <col width="0%">
+                <col width="100%">
+                <col width="0%">
+                <col width="0%">
+                <col width="0%">
+                <col width="0%">
+                <col width="0%">
+                <col width="0%">
+                <tr>
+                    <td><select class="ql-align"></select></td>
+                    <td><button class="ql-list" value="bullet"></button></td>
+                    <td><button class="ql-list" value="ordered"></button></td>
+                    <td><button class="ql-indent" value="-1"></button></td>
+                    <td><button class="ql-indent" value="+1"></button></td>
+                    <td>                    </td>
+                    <td><button class="ql-link"></button></td>
+                    <td><button class="ql-image"></button></td>
+                    <td><button class="ql-video"></button></td>
+                    <td><button class="ql-formula"></button></td>
+                    <td><button class="ql-script" value="sub"></button></td>
+                    <td><button class="ql-script" value="super"></button></td>
+                </tr>
+            </table>
+        </div>
 
         <div id = "editor" class="ql-container ql-snow">
             {{ notes|safe }}
         </div>
 
-        <div align="right" style="margin-top: 80px;">
-            <button class="btn btn-lg btn-info" onclick="navigateToNetwork('{{ focuspath }}');">Back to Network</button>
-            <button class="btn btn-lg btn-info" onclick="saveNotes('{{ focuspath }}');">Save Notes</button>
+        <div align="right" style="margin-top: 20px;">
+            <button class="btn btn-info" onclick="navigateToNetwork('{{ focuspath }}');">Back to Network</button>
+            <button class="btn btn-primary" onclick="saveNotes('{{ focuspath }}');">Save Notes</button>
         </div>
     </div>
     <script>
-      var toolbarOptions = [
-          ['bold', 'italic', 'underline', 'strike','code'],        // toggled buttons
-          ['blockquote', 'code-block'],
-
-          [{ 'header': 1 }, { 'header': 2 }],               // custom button values
-          [{ 'list': 'ordered'}, { 'list': 'bullet' }],
-          [{ 'script': 'sub'}, { 'script': 'super' }],      // superscript/subscript
-          [{ 'indent': '-1'}, { 'indent': '+1' }],          // outdent/indent
-          [{ 'direction': 'rtl' }],                         // text direction
-
-          [{ 'size': ['small', false, 'large', 'huge'] }],  // custom dropdown
-          [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
-
-          [{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
-          [{ 'font': [] }],
-          [{ 'align': [] }],
-
-          ['clean'],                                        // remove formatting button
-
-          ['link', 'image', 'video', 'formula']
-      ];
       var quill = new Quill('#editor', {
         modules:{
-          toolbar: toolbarOptions,
+          toolbar: '#toolbar',
         },
         theme: 'snow'
       });

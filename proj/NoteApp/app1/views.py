@@ -34,7 +34,6 @@ def index(request):
                 "focusFiles":focusFiles }
     return render(request, 'index.html', context)
 
-
 def node(request):
     noteFilePath = request.GET['path'] + "/.notes.noteapp"
     noteFullPath = settings.BASE_DIR+"/storage/data/"+ noteFilePath
@@ -87,7 +86,6 @@ def ajax(request):
             initFile += newFocusName
             ff.readline()
             initFile += ''.join(ff.readlines())
-
 
         with open(focusFullPath+"/.init.noteapp",'w') as ff:
             ff.write(initFile)

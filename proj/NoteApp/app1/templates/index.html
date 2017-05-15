@@ -3,14 +3,13 @@
 {% block content %}
 
 
-    <div id="mynetwork" style="margin-top: 40px"></div>
-    <div align="right">
+    <div id="mynetwork" class="center-block" style="margin-top: 60px;"></div>
+    <div class="text-center" style="margin-top: 30px;">
 
-        <button class="btn btn-lg btn-info" data-toggle="modal" data-target="#nodenamemodal">Edit the node name</button>
-        <button class="btn btn-lg btn-info" onclick="deleteTheNode('{{ focusPath }}');">Delete the node</button>
-
-        <button class="btn btn-lg btn-info" onclick="addNewNode('{{ focusPath }}');">Add new node</button>
-        <button class="btn btn-lg btn-info" onclick="navigateToParent('{{ focusPath }}');">Back to parent</button>
+        <button class="btn btn-success" onclick="addNewNode('{{ focusPath }}');">Add new node</button>
+        <button class="btn btn-warning" data-toggle="modal" data-target="#nodenamemodal">Edit the node name</button>
+        <button class="btn btn-danger" data-toggle="modal" data-target="#deletenodemodal">Delete the node</button>
+        <button class="btn btn-primary" onclick="navigateToParent('{{ focusPath }}');">Back to parent</button>
     </div>
 
     <div id="nodenamemodal" class="modal fade" role="dialog">
@@ -31,10 +30,29 @@
         </div>
     </div>
 
+    <div id="deletenodemodal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Delete node</h4>
+              </div>
+              <div class="modal-body">
+                <p>Are you sure? It will delete the node and every child node of it! </p>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default btn-danger" onclick="deleteTheNode('{{ focusPath }}');" data-dismiss="modal">Delete</button>
+              </div>
+            </div>
+        </div>
+    </div>
+
     <style type="text/css">
         #mynetwork {
-            width: 100%;
-            height: 800px;
+            width: 800px;
+            height: 500px;
+            alignment: center;
             border: 1px solid lightgray;
         }
     </style>
@@ -55,21 +73,34 @@
 
 
         var edgeData = [];
-        for(var ii = 0;ii< childDirSize; ii++){edgeData.push( {from: 1, to: ii+2 ,length: 380} );}
+        for(var ii = 0;ii< childDirSize; ii++){edgeData.push( {from: 1, to: ii+2 ,length: 150} );}
         var edges = new vis.DataSet(edgeData);
 
 
         var container = document.getElementById('mynetwork');
         var data = {nodes: nodes,edges: edges,};
         var options = {
+          layout:{
+              hierarchical:{
+                  enabled: true,
+                  levelSeparation: 170,
+              },
+          },
+          edges:{
+              smooth: {
+                  enabled: true,
+                  type: "horizontal",
+                  roundness: 0.55
+                },
+          },
           nodes:{
             shape : 'box',
             scaling: {label: {enabled: true,},},
-            font: '40px arial black',
+            font: '25px arial black',
             margin: 15,
           },
           groups: {
-            focus: {color:{background:'green',border:'black'},borderWidth:8}
+            focus: {color:{background:'green',border:'black',highlight:{background:'green',border:'black'}},borderWidth:4}
           },
         };
 

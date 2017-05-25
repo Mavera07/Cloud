@@ -9,8 +9,11 @@
         <button class="btn btn-success" onclick="addNewNode('{{ focusPath }}');">Add new node</button>
         <button class="btn btn-warning" data-toggle="modal" data-target="#nodenamemodal">Edit the node name</button>
         <button class="btn btn-danger" data-toggle="modal" data-target="#deletenodemodal">Delete the node</button>
+
+        <button class="btn btn-info" onclick="exportNetwork('{{ focusPath }}');">Save locations</button>
         <button class="btn btn-primary" onclick="navigateToParent('{{ focusPath }}');">Back to parent</button>
     </div>
+
 
     <div id="nodenamemodal" class="modal fade" role="dialog">
         <div class="modal-dialog">
@@ -50,8 +53,8 @@
 
     <style type="text/css">
         #mynetwork {
-            width: 800px;
-            height: 500px;
+            width: 1000px;
+            height: 700px;
             alignment: center;
             border: 1px solid lightgray;
         }
@@ -66,14 +69,18 @@
 
         var childDirSize = childDirLabels.length;
 
+        // POSITION DATA ADDITION FROM SAVED FILE
+        var networkPositionJSON = '{{ focusLocations | safe}}';
+        var networkPositionData = JSON.parse(networkPositionJSON);
+
         var nodeData = [];
-        nodeData.push( {id: 1, group: 'focus', label: '{{ focusName }}'} );
-        for(var ii = 0;ii< childDirSize; ii++){nodeData.push( {id: ii+2, label: childDirLabels[ii] } );}
+        nodeData.push( {id: 1, group: 'focus', label: '{{ focusName }}',x:networkPositionData[0]["x"],y:networkPositionData[0]["y"]} );
+        for(var ii = 0;ii< childDirSize; ii++){nodeData.push( {id: ii+2, label: childDirLabels[ii], x:networkPositionData[ii+1]["x"],y:networkPositionData[ii+1]["y"]  } );}
         var nodes = new vis.DataSet(nodeData);
 
 
         var edgeData = [];
-        for(var ii = 0;ii< childDirSize; ii++){edgeData.push( {from: 1, to: ii+2 ,length: 150} );}
+        for(var ii = 0;ii< childDirSize; ii++){edgeData.push( {from: 1, to: ii+2 ,length: 250} );}
         var edges = new vis.DataSet(edgeData);
 
 
@@ -82,13 +89,21 @@
         var options = {
           layout:{
               hierarchical:{
-                  enabled: true,
+                  enabled: false,
                   levelSeparation: 170,
               },
           },
+          physics:{
+            enabled: false,
+          },
+          interaction: {
+            dragNodes: true,// do not allow dragging nodes
+            zoomView: false, // do not allow zooming
+            dragView: false,
+          },
           edges:{
               smooth: {
-                  enabled: true,
+                  enabled: false,
                   type: "horizontal",
                   roundness: 0.55
                 },
@@ -98,9 +113,13 @@
             scaling: {label: {enabled: true,},},
             font: '25px arial black',
             margin: 15,
+            fixed: {
+              x:false,
+              y:false
+            },
           },
           groups: {
-            focus: {color:{background:'green',border:'black',highlight:{background:'green',border:'black'}},borderWidth:4}
+            focus: {color:{background:'turquoise',border:'black',highlight:{background:'cyan',border:'black'}},fixed:{x:false,y:false},borderWidth:4}
           },
         };
 

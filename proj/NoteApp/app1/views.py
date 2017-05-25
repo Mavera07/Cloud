@@ -3,6 +3,7 @@ from django.conf import settings
 
 import os
 import shutil
+import re
 
 # Create your views here.
 
@@ -26,12 +27,18 @@ def index(request):
         with open(focusFullPath+"/"+dir_x+"/.init.noteapp",'r') as ff:
             ff.readline();focusDirNames.append(ff.readline().strip());ff.readline()
 
+    focusLocations = []
+    with open(focusFullPath+"/.locations.noteapp",'r') as ff:
+        focusLocations = ''.join(ff.readlines())
+        focusLocations = focusLocations.replace("\n","")
+
 
     context = {"focusPath":focusPath,
                 "focusName":focusInfo[0],
                 "focusDirs":focusDirs,
                 "focusDirNames":focusDirNames,
-                "focusFiles":focusFiles }
+                "focusFiles":focusFiles,
+                "focusLocations":focusLocations }
     return render(request, 'index.html', context)
 
 def node(request):
@@ -89,6 +96,15 @@ def ajax(request):
 
         with open(focusFullPath+"/.init.noteapp",'w') as ff:
             ff.write(initFile)
+
+    elif 'exportnetwork' in request.GET and 'path' in request.GET and 'data' in request.GET:
+        focusPath = request.GET['path']
+        networkData = request.GET['data']
+
+        focusFullPath = settings.BASE_DIR + "/storage/data/" + focusPath    
+
+        with open(focusFullPath+"/.locations.noteapp",'w') as ff:
+            ff.write(networkData)
 
 
     from django.http import HttpResponse

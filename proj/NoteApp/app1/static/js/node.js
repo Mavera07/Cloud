@@ -24,3 +24,13 @@ function saveNotes(focuspath){
 function navigateToNetwork(focuspath){
     window.location.href = "/index?path="+focuspath;
 }
+
+function navigateToParent(focuspath){
+    var temp = focuspath.match(/(.+)\/.+?/);
+    
+    if(temp !=null){
+        window.location.href = "/index?path="+temp[1];
+    }else{
+        window.location.href = "/index?path="+focuspath;
+    }
+}

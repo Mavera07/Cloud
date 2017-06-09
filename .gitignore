@@ -4,3 +4,5 @@ proj/NoteApp/storage/data
 proj/NoteApp/storage/data/*
 proj/NoteApp/storage/data/
 proj/NoteApp/app1/migrations
+proj/NoteApp/storage/
+proj/NoteApp/storage

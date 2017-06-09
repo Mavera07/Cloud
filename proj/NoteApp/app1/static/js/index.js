@@ -61,19 +61,19 @@ function editTheNode(focuspath) {
 }
 
 
-function exportNetwork_addConnections(elem, index) {
+function saveLocations_addConnections(elem, index) {
     elem.connections = network.getConnectedNodes(index);
 }
-function exportNetwork_objectToArray(obj) {
+function saveLocations_objectToArray(obj) {
     return Object.keys(obj).map(function (key) {
       obj[key].id = key;
       return obj[key];
     });
 }
-function exportNetwork(focuspath) {
-    var nodes = exportNetwork_objectToArray(network.getPositions());
+function saveLocations(focuspath) {
+    var nodes = saveLocations_objectToArray(network.getPositions());
 
-    //nodes.forEach(exportNetwork_addConnections);
+    //nodes.forEach(saveLocations_addConnections);
     var exportValue = JSON.stringify(nodes, undefined, 2);
 
     $.ajax({
@@ -82,7 +82,7 @@ function exportNetwork(focuspath) {
         data: {'exportnetwork':'','path':focuspath,'data':exportValue},
         dataType: 'json',
         complete: function () {
-            
+            $("#savelocationsmodal").modal('show');
         },
     });
 }

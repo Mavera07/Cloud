@@ -15,6 +15,9 @@ function saveNotes(focuspath){
         contentType: 'application/json',
         data: {'savehtml':notes,'path':focuspath},
         dataType: 'json',
+        complete: function () {
+            $("#savenotesmodal").modal('show');
+        },
       });
 }
 

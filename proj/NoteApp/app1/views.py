@@ -10,7 +10,8 @@ import textwrap
 
 def index(request):
 
-    focusPath = request.GET['path']
+    # TODO DELETE AUTOMATIC 0 SELECTION
+    focusPath = request.GET['path'] if 'path' in request.GET else "0"
     focusFullPath = settings.BASE_DIR+"/storage/data/"+focusPath
 
     focusInfo = []

@@ -1,3 +1,6 @@
 proj/NoteApp/storage/virt
 proj/NoteApp/app1/__pycache__
 proj/NoteApp/storage/data
+proj/NoteApp/storage/data/*
+proj/NoteApp/storage/data/
+proj/NoteApp/app1/migrations

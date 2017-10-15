@@ -86,13 +86,23 @@
         var networkPositionData = JSON.parse(networkPositionJSON);
 
         var nodeData = [];
-        nodeData.push( {id: 1, group: 'focus', label: '{{ focusName }}',x:networkPositionData[0]["x"],y:networkPositionData[0]["y"]} );
-        for(var ii = 0;ii< childDirSize; ii++){nodeData.push( {id: ii+2, label: childDirLabels[ii], x:networkPositionData[ii+1]["x"],y:networkPositionData[ii+1]["y"]  } );}
+
+        function getLocationEntryFromID(locationsjson, nodeid){
+            for(var ii = 0;ii< childDirSize+1; ii++){
+                if(locationsjson[ii]["id"] == nodeid){
+                    return locationsjson[ii];
+                }
+            }
+
+        }
+
+        nodeData.push( {id: -1, group: 'focus', label: '{{ focusName }}',x: getLocationEntryFromID(networkPositionData,-1)["x"],y:getLocationEntryFromID(networkPositionData,-1)["y"]} );
+        for(var ii = 0;ii< childDirSize; ii++){nodeData.push( {id: childDirNames[ii], label: childDirLabels[ii], x:getLocationEntryFromID(networkPositionData,childDirNames[ii])["x"],y:getLocationEntryFromID(networkPositionData,childDirNames[ii])["y"]  } );}
         var nodes = new vis.DataSet(nodeData);
 
 
         var edgeData = [];
-        for(var ii = 0;ii< childDirSize; ii++){edgeData.push( {from: 1, to: ii+2 ,length: 250} );}
+        for(var ii = 0;ii< childDirSize; ii++){edgeData.push( {from: -1, to: childDirNames[ii] ,length: 250} );}
         var edges = new vis.DataSet(edgeData);
 
 
@@ -153,7 +163,6 @@
 
         network.on("click",function (nwparams) {
             var clickedNodeId = nwparams['nodes'][0]
-
             if(clickedNodeId != undefined){
                 var clickedNode = nodes.get(clickedNodeId);
                 var clickedName = clickedNode["label"]

@@ -5,8 +5,10 @@ import os
 import shutil
 import re
 import textwrap
+import unicodedata
 
 # Create your views here.
+
 
 def index(request):
 
@@ -66,20 +68,6 @@ def ajax(request):
         focusPath = request.GET['path']
         focusFullPath = settings.BASE_DIR + "/storage/data/" + focusPath
 
-        with open(focusFullPath+"/.locations.noteapp" ,'r') as ff:
-            locInfo = ''.join(ff.readlines())
-
-        locInfoUpdated = re.search(r'(.+\}).+?$',locInfo,re.DOTALL).group(1)+","+textwrap.dedent("""
-          {
-            "x": 40,
-            "y": 40,
-            "id": "%d"
-          }
-        ]""" % (len(re.findall('"id"',locInfo)) + 1) )
-
-        with open(focusFullPath+"/.locations.noteapp" ,'w') as ff:
-            ff.write(locInfoUpdated)
-        
 
         foldername = 0
         while(os.path.isdir(focusFullPath+"/"+str(foldername))):
@@ -98,10 +86,25 @@ def ajax(request):
                     {
                         "x": 0,
                         "y": 0,
-                        "id": "1"
+                        "id": "-1"
                     }
                 ]"""
             )
+
+
+        with open(focusFullPath+"/.locations.noteapp" ,'r') as ff:
+            locInfo = ''.join(ff.readlines())
+
+        locInfoUpdated = re.search(r'(.+\}).+?$',locInfo,re.DOTALL).group(1)+","+textwrap.dedent("""
+          {
+            "x": 40,
+            "y": 40,
+            "id": "%d"
+          }
+        ]""" % (foldername) )
+
+        with open(focusFullPath+"/.locations.noteapp" ,'w') as ff:
+            ff.write(locInfoUpdated)
 
     elif 'deletenode' in request.GET and 'path' in request.GET:
         focusPath = request.GET['path']
@@ -116,9 +119,17 @@ def ajax(request):
         with open(parentFullPath+"/.locations.noteapp" ,'r') as ff:
             locInfo = ''.join(ff.readlines())
 
-        tt = re.search(r'(.+)\{.+?\}(.+?$)',locInfo,re.DOTALL)
-        tt2 = re.search(r'(.+),.*?$',tt.group(1),re.DOTALL)
-        locInfo = tt2.group(1)+tt.group(2)
+        locregex = r'(.+)\{.+?\"id\": \"' + re.escape(focusPath[-1:]) + r'\".*?\}(.+)'
+        locmatch = re.search(locregex, locInfo, re.DOTALL)
+        locInfoUnfixed = locmatch.group(1) + locmatch.group(2)
+        locfixcase1regex = r'\[\s+?,\n(.+)'
+        locfixcase2regex = r'(.+?,)\s+?,(\n.+)'
+        locfixcase1match = re.search(locfixcase1regex, locInfoUnfixed, re.DOTALL)
+        locfixcase2match = re.search(locfixcase2regex, locInfoUnfixed, re.DOTALL)
+        if (locfixcase2match == None):
+            locInfo = "[\n" + locfixcase1match.group(1)
+        elif (locfixcase1match == None):
+            locInfo = locfixcase2match.group(1) + locfixcase2match.group(2)
 
         with open(parentFullPath+"/.locations.noteapp" ,'w') as ff:
             ff.write(locInfo)
